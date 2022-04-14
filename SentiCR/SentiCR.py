@@ -77,10 +77,18 @@ mystop_words=[
 emodict=[]
 contractions_dict=[]
 
+import os
 
+here = os.path.dirname(os.path.abspath(__file__))
+
+contractionsFilename = os.path.join(here, 'contractions.txt')
+emoticonFilename = os.path.join(here, "emoticon.txt")
+oracleFilename = os.path.join(here, "oracle.xlsx")
+oracleCsvFilename = os.path.join(here, "oracle.csv")
+print(contractionsFilename)
 # Read in the words with sentiment from the dictionary
-with open("Contractions.txt","r") as contractions,\
-     open("EmoticonLookupTable.txt","r") as emotable:
+with open(contractionsFilename,"r") as contractions,\
+     open(emoticonFilename,"r") as emotable:
     contractions_reader=csv.reader(contractions, delimiter='\t')
     emoticon_reader=csv.reader(emotable,delimiter='\t')
 
@@ -326,50 +334,53 @@ if __name__ == '__main__':
     print("Cross validation")
     print("Algrithm: " + ALGO)
     print("Repeat: " + str(REPEAT))
+    with open(oracleCsvFilename) as workbookCsv:
+        
 
-    workbook = open_workbook("oracle.xlsx")
-    sheet = workbook.sheet_by_index(0)
-    oracle_data = []
+        workbook = csv.reader(workbookCsv)
+        print(workbook)
+        # sheet = workbook.sheet_by_index(0)
+        oracle_data = []
 
-    for cell_num in range(0, sheet.nrows):
-        comments = SentimentData(sheet.cell(cell_num, 0).value,sheet.cell(cell_num, 1).value)
-        oracle_data.append(comments)
+        for row in workbook:
+            comments = SentimentData(row[0], row[1])
+            oracle_data.append(comments)
 
-    random.shuffle(oracle_data)
+        random.shuffle(oracle_data)
 
-    oracle_data=np.array(oracle_data)
+        oracle_data=np.array(oracle_data)
 
-    Precision = []
-    Recall = []
-    Fmean = []
-    Accuracy = []
+        Precision = []
+        Recall = []
+        Fmean = []
+        Accuracy = []
 
-    for k in range (0,REPEAT):
-        print(".............................")
-        print("Run# {}".format(k))
-        (precision, recall, f1score, accuracy)=ten_fold_cross_validation(oracle_data,ALGO)
-        Precision.append(precision)
-        Recall.append(recall)
-        Fmean.append(f1score)
-        Accuracy.append(accuracy)
-        print("Precision:"+str(precision))
-        print("Recall:" + str(recall))
-        print("F-measure:" + str(f1score))
-        print("Accuracy:" + str(accuracy))
+        for k in range (0,REPEAT):
+            print(".............................")
+            print("Run# {}".format(k))
+            (precision, recall, f1score, accuracy)=ten_fold_cross_validation(oracle_data,ALGO)
+            Precision.append(precision)
+            Recall.append(recall)
+            Fmean.append(f1score)
+            Accuracy.append(accuracy)
+            print("Precision:"+str(precision))
+            print("Recall:" + str(recall))
+            print("F-measure:" + str(f1score))
+            print("Accuracy:" + str(accuracy))
 
-    ##########################
-    training = open("cross-validation-" + ALGO + ".csv", 'w')
-    training.write("Run,Algo,Precision,Recall,Fscore,Accuracy\n")
+        ##########################
+        training = open("cross-validation-" + ALGO + ".csv", 'w')
+        training.write("Run,Algo,Precision,Recall,Fscore,Accuracy\n")
 
-    for k in range(0, REPEAT):
-        training.write(str(k) + "," + ALGO + "," + str(Precision[k]) + "," + str(Recall[k]) + "," +
-                       str(Fmean[k]) + "," + str(Accuracy[k]) + "\n")
-    training.close()
+        for k in range(0, REPEAT):
+            training.write(str(k) + "," + ALGO + "," + str(Precision[k]) + "," + str(Recall[k]) + "," +
+                        str(Fmean[k]) + "," + str(Accuracy[k]) + "\n")
+        training.close()
 
-    print("-------------------------")
-    print("Average Precision: {}".format(mean(Precision)))
-    print("Average Recall: {}".format(mean(Recall)))
-    print("Average Fmean: {}".format(mean(Fmean)))
-    print("Average Accuracy: {}".format(mean(Accuracy)))
-    print("-------------------------")
+        print("-------------------------")
+        print("Average Precision: {}".format(mean(Precision)))
+        print("Average Recall: {}".format(mean(Recall)))
+        print("Average Fmean: {}".format(mean(Fmean)))
+        print("Average Accuracy: {}".format(mean(Accuracy)))
+        print("-------------------------")
 
