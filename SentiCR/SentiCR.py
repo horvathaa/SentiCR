@@ -2,8 +2,8 @@ from __future__ import print_function
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
-from sklearn.metrics import  precision_score
-from sklearn.metrics import  f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
 
 import  random
 import csv
@@ -32,7 +32,7 @@ from imblearn.over_sampling import SMOTE
 
 
 def replace_all(text, dic):
-    for i, j in dic.iteritems():
+    for i, j in dic.items():
         text = text.replace(i, j)
     return text
 
@@ -179,9 +179,11 @@ def handle_negation(comments):
 
 
 def preprocess_text(text):
-    comments = text.encode('ascii', 'ignore')
-    comments = expand_contractions(comments)
+    # comments = text.encode('ascii', 'ignore')
+    # print(comments)
+    comments = expand_contractions(text)
     comments = remove_url(comments)
+    # print(emodict)
     comments = replace_all(comments, emodict)
     comments = handle_negation(comments)
 
@@ -234,6 +236,7 @@ class SentiCR:
         training_ratings=[]
         print("Training classifier model..")
         for sentidata in self.training_data:
+            # print(sentidata.text)
             comments = preprocess_text(sentidata.text)
             training_comments.append(comments)
             training_ratings.append(sentidata.rating)
@@ -245,10 +248,10 @@ class SentiCR:
         Y_train = np.array(training_ratings)
 
         #Apply SMOTE to improve ratio of the minority class
-        smote_model = SMOTE(ratio=0.5, random_state=None, k=None, k_neighbors=15, m=None, m_neighbors=15, out_step=.0001,
-                   kind='regular', svm_estimator=None, n_jobs=1)
-
-        X_resampled, Y_resampled=smote_model.fit_sample(X_train, Y_train)
+        # smote_model = SMOTE(ratio=0.5, random_state=None, k=None, k_neighbors=15, m=None, m_neighbors=15, out_step=.0001,
+        #            kind='regular', svm_estimator=None, n_jobs=1)
+        smote_model = SMOTE(random_state=None, k_neighbors=15, n_jobs=1)
+        X_resampled, Y_resampled=smote_model.fit_resample(X_train, Y_train)
 
         model=self.get_classifier()
         model.fit(X_resampled, Y_resampled)
@@ -303,10 +306,10 @@ def ten_fold_cross_validation(dataset,ALGO):
         test_ratings=[comments.rating for comments in dataset[test]]
 
         pred = classifier_model.get_sentiment_polarity_collection(test_comments)
-
-        precision = precision_score(test_ratings, pred, pos_label=-1)
-        recall = recall_score(test_ratings, pred, pos_label=-1)
-        f1score = f1_score(test_ratings, pred, pos_label=-1)
+        # these all used to be just numbers
+        precision = precision_score(test_ratings, pred, pos_label='-1')
+        recall = recall_score(test_ratings, pred, pos_label='-1')
+        f1score = f1_score(test_ratings, pred, pos_label='-1')
         accuracy = accuracy_score(test_ratings, pred)
 
         run_accuracy.append(accuracy)
@@ -334,15 +337,20 @@ if __name__ == '__main__':
     print("Cross validation")
     print("Algrithm: " + ALGO)
     print("Repeat: " + str(REPEAT))
-    with open(oracleCsvFilename, encoding='utf-16') as workbookCsv:
-        
-
-        workbook = csv.reader(workbookCsv)
-        print(workbook)
+    with open(oracleCsvFilename, encoding='utf-8-sig', newline='') as workbookCsv:
+        filtered = (line.replace('\r', '') for line in workbookCsv)
+        # print(workbookCsv)
+        workbook = csv.reader(filtered, delimiter=',', quotechar='"')
+        listWorkbook = list(workbook)
+        print(listWorkbook[0])
+        print(listWorkbook[1])
+        print(listWorkbook[2])
+        # print(workbook.seek(1))
         # sheet = workbook.sheet_by_index(0)
         oracle_data = []
 
-        for row in workbook:
+        for row in listWorkbook:
+            print(row)
             comments = SentimentData(row[0], row[1])
             oracle_data.append(comments)
 
