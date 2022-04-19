@@ -334,7 +334,7 @@ if __name__ == '__main__':
     print("Cross validation")
     print("Algrithm: " + ALGO)
     print("Repeat: " + str(REPEAT))
-    with open(oracleCsvFilename) as workbookCsv:
+    with open(oracleCsvFilename, encoding='utf-16') as workbookCsv:
         
 
         workbook = csv.reader(workbookCsv)
