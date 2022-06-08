@@ -328,7 +328,7 @@ if __name__ == '__main__':
 
 
     parser.add_argument('--repeat', type=int,
-                        help='Iteration count', default=100)
+                        help='Iteration count', default=10)
 
     args = parser.parse_args()
     ALGO = args.algo
