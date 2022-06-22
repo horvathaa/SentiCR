@@ -1,0 +1,280 @@
+"Hey @mringler, I think this looks great. I also think we should take a small step back with removing functions from the public interface of this library, so I'd advise returning configureSelectColumns and getSelect, and applying a @deprecated phpdoc tag to them.",0
+This fixes the issue,0
+Looks good to me,0
+I tried to test this but could not bring up that spoke at all. @rvykydal do you have any idea what this is and how to test it?,0
+"Tested - thanks @poncovka. Looks exactly as it should. The only drawback is that it invalidates existing translations, but that's life, I guess... @rffontenelle thank you for the change!",0
+"Nice work,
+
+related to the rename that you mentioned here, rest of toolkits already uses the same name convention, so at the end is complex to apply a change like that.
+
+Reviewing your PR, I noticed that we renamed options by parse_options.
+
+I think we need to rename it back to options, since it can contains parse_options, but also a settings object.
+And update the parameter description that currently only mention the settings stuff:
+
+@param options [Hash] :settings to provide the OneLogin::RubySaml::Settings object or an hash for Settings overrides
+
+What do you think?",0
+I think now is perfect,0
+Coverage decreased (-0.33%) when pulling 4be5074 on jmettraux:master into 81222d7 on tobiassvn:master.,-1
+"Still happens on 6.0.0.alpha. Also worth noting this doesn't happen in development mode, only production. What environment setting adds mime negotiation?",-1
+Maybe we should put it somewhere in here instead?,-1
+You can do assert_match here instead for better failures.,-1
+"Needs a rebase, but looks good to me. Can you rebase it?",0
+Looks good. Thanks for the pull request @kennethkalmer! 🎉,0
+👍 thanks!,0
+"I think I'm going to end up deprecating the tools section of the site and just use the wiki. I'm not 100% sure of that yet, but I added this there - https://github.com/facebook/react/wiki/Complementary-Tools",-1
+(#1280 got rid of the tools page on the site.),-1
+"Hi Cherno, this is just a small change to suppress the warnings you mentioned in your latest video (C4996 and C4251 specifically) when compiling for Windows.",0
+"I suggest fixing the source of these warnings, like mentioned in #32",-1
+"Thanks! My only opposition to adding path support to the Cloudworker class is the added complexity. I'm not sure what we gain with it. I'm open to arguments for it though. If you'd like, open an issue and we can discuss it there.",-1
+"Yep, I was mistaken. Looks good. Thanks for the contribution!",-1
+Thank you - too bad the Cart class is getting killed though.,-1
+"I'm not nuts about the function name. Can you rename it to total_quantity(), add it to the documentation, and change log please? Then we can merge 'er in!",-1
+"@CodaFi I believe there's an error in the ""Alternatives considered"" section. Result: Error, Value should actually be suggested as Result: Value, Error so that it's left-biased.",-1
+"Speaking as the principal author of both a reasonably well-known Either and the de facto standard community implementation of Result, I would welcome nearly anything which hastens their demise.
+
+That said, it’s notable that the latter has gained much more popular traction than the former (despite the latter’s youth), harmonizing with your comment later on that most uses of Either are really Result.
+
+Therefore, I wonder if this proposal would be strengthened by the inclusion of examples of problems for which Either is well-suited, but where the norm is currently e.g. to return (A?, B?), or to abuse throws for control flow, or similar.
+
+For example, early returns from reduce or other higher-functions are quite natural to model with Either<A, A>, where the Left case causes the immediate cessation of the operation & returns the enclosed value, while the Right case continues as normal. (Shades of Continuation and Free, but we won’t go there.)",0
+What's the thinking behind a left-bias rather than a right-bias? The latter falls out naturally from type constructor currying in Haskell. Apologies if I'm asking a question which has an answer obvious to people more familiar with Swift's type system.,-1
+"@CodaFi I didn't see a principled reason in the Rust documentation, but it's strictly less useful to have an unbiased Either type. Should take care to avoid making the mistake of naming the constructors ""Result"" and ""Error"" or something as well. The usefulness is the functorial bias. I've had situations where Left was my success case and Right was my failure mode because I wanted to keep ""trying"" an action that would fail repeatedly until it succeeded. The bias acted as a short-circuit and Left was my success. This, among other reasons, is why Haskell's Either just has ""Left"" and ""Right"" for the data constructors though I suspect that wasn't necessarily the original reason.
+
+I've written about this some here: http://bitemyapp.com/posts/2015-10-19-either-is-not-arbitrary.html
+
+If your type constructors aren't ordered or curried, I don't know of an argument against left-bias, but please do avoid choosing to call the target the Functor is biased toward ""Success"". It'll give people the wrong understanding of what it is, means, and does even if that's the common case.",-1
+This was very controversial and should be discussed more on the lists.,-1
+"@squillace Thanks for catching this Ralph, please sign your commit so we can merge",-1
+"haha that's fair. Not a huge fan of the specific favicon myself, but I'll design one and make the change when I can spare some time :) thanks!",-1
+"I think I'd just want it to be a simple white ""AS"" on top of the arxiv-sanity-red-color. If you make the change I'd be happy to merge it. You might also want to include the favicon html into the other .html file for discussions.",-1
+"change looks reasonable. I am giving it a round of testing.
+Under what condition would headerGet return false here? OOM? no changelog entry found?",0
+test looks good.,0
+"I can't accept this - if you need multiple items, please use tuple. PK can be any value and it can have ':' in it.",-1
+"update: rebase master
+
+hi @mrjoes, could you take some time to review this pr?",0
+any plans to merge this? :),-1
+any news about the merge ?,-1
+waiting for merge,0
+"Validation status: passed
+File	Status	Preview URL	Details
+powerbi-docs/desktop-tooltips.md	✅Succeeded		
+For more details, please refer to the build report.
+
+Note: If you changed an existing file name or deleted a file, broken links in other files to the deleted or renamed file are listed only in the full build report.",0
+"✅ Validation status: passed
+File	Status	Preview URL	Details
+powerbi-docs/desktop-tooltips.md	✅Succeeded		
+For more details, please refer to the build report.
+
+Note: If you changed an existing file name or deleted a file, broken links in other files to the deleted or renamed file are listed only in the full build report.",0
+"Hi, @amandacofsky -- looks good. @davidiseminger, I'm going to accept this change for you.",0
+"Currently, GPDB5 doesn't use signed URLs but instead BucketPolicy is set on S3 to provide direct access to pulse to access the installers. Both approaches have their pros an cons, so not sure which route is better. With signed URLs its easy for devs to fork pipeline and run. In absence of the same with current approach any S3 bucket the installers are pushed need to update BucketPolicy to provide pulse access to fetch the same. But in its current form PR doesn't seem relevant, unless trigger pulse script is changed to pass signed URLs.",-1
+"Confirmed that the bucket policy approach is still used, so closing",-1
+this doesn't appear to ever be set,-1
+"I ran the tests... Almost every image is different. It looks like the break calculations changed?
+
+The test results: http://stdout.org/~winston/kohske-vtest/html/
+
+And here is diff against the commit where it branched off of master, 0ce3fb1:
+http://stdout.org/~winston/kohske-vtest/diff/
+
+Please feel free to email me if you want help getting set up with vtest.",-1
+"Great - a couple comments:
+
+coord-polar.r: the expansion isn't correct for ""rose plot with has equal spacing""
+lines.r: I think the expansion was working for coord_map when I was working on it -- coord_map just inherited the same expand values as coord_cartesian.",0
+"Should this be new s3 method for scales? Maybe scale_info which would return a list: major, minor and labels?",-1
+I think this should be scale_dimension (or scale_something) because scale_limits can return different things depending on the class,-1
+We may also want to switch from pretty to labelling:rpretty in this patch since that is also likely to affect all the break positions slightly (hopefully to give better results),-1
+"Also I think the new breaks with coord_cartesian look much better, and we should probably eliminate the wise param, defaulting it to always be wise - if the user doesn't like it, they can override with the scale.",0
+"I think the flow is reasonable - coords know the overall ranges, and scales know the details of how to generate the ticks.
+
+I'll update scales to use labeling::extended - see my discussion on the ggplot2 mailing list for how to capture these dependencies.",-1
+A quick note about visual tests: please make sure the descriptions make it reasonably easy for someone to look at the output from vtest_webpage() and see that things are OK. Changing descriptions in the future will result in (spurious) changes in the test results.,-1
+@kohske Thank you for your work on this branch!,0
+"Hey,
+
+Thanks for this, looks good to me. I've no jenkins instance to test on at the moment though, so it would be nice if someone else could test it before it's merged.
+
+The only thing I'm unsure of is the use of a ""cf"" prefix in the request parameters. I vaguely recall that this isn't necessary, that the form elements get some kind of namespacing automagically, but it's a while since I've looked at jenkins, and, as mentioned, I've no way of testing at the moment. Could you check it and remove the prefix if it isn't necessary?",0
+"Jenkins » campfire-plugin #2 SUCCESS
+This pull request looks good
+(what's this?)",0
+Good stuff ;) ! Thx,0
+"I don't know about adding the JS files to vendor/assets. Original intention of using flexslider was just an out-of-box example. Still not very sure about the Heroku environment.
+
+Pulling both requests, working them out on my local installations and then once it's good, I'll push to Rubygems.
+
+On a side note, does anyone have a copycopter-like solution for adding on content in spree? like you can define areas in any part of the layout where things can be edited.",-1
+"Heh yeah, I will cherry pick here. Although I can't merge yet, since I don't have Gnome-Shell 3.3 installed, and without testing I don't like to merge. Apart from that, good work, was exactly what I intended :)",0
+"Good to know that the window decoration is now properly captured, although I'm mising the window shadow. About the ""artifacts"" on transparent background, they were already present in 3.2.",0
+"Looks good so far. Tho I still have to wait for the new Ubuntu to get GS 3.3 so I can test out all changes before I can merge.
+
+Oh, and about the timer for active window:
+It is a bit tricky to handle focus-changes while the timer is running (I remember that I had some good reason to forbid the timer on that). Tho if you like you can look into it and supply a patch.",0
+"Ok, looks good to me. I made a few small couple when I merged it:
+
+1. sec_keyboard.kl is now in configs/usr/keylayout
+2. moved things in ueventd around a bit",0
+"I have some problems with the patch:
+
+lsscsi is always required to know the interface (e.g. SATA, USB) disks are connected by.
+YaST would have to be extended to check and install the required packages when e.g. RAID, LVM or LUKS is created.
+For debugging purposes the output of the tools is required. E.g. if users have multipath hardware but multipath not enabled really bad things happen. Yes, you can find various bugzilla entries about that. Without the tools the logs get meaningless.
+Finally I don't see the big advantage if the packages are still installed on every system per default. The improvement is only available to people who manually fiddle with their systems.",-1
+You didn't read the last paragraph of my previous comment.,-1
+"Adding paragraphs afterwards is unfair.
+
+The initrd detects by itself what is required. E.g. when running on my system I see:
+
+Features: acpi dm plymouth block usb lvm2 resume.userspace resume.kernel
+
+No mdadm, dmraid, multipath or dmcrypt.
+
+Anyway, yes we want to improve the system for everybody. But the patch only improves it for people who fiddle with the system manually. And for ""a big step"" the patch is unsuited.",-1
+"Even the boot scripts are not activated by default but instead YaST has code to call insserv for those required, look
+at FinishInstall() in Storage.ycp. So I even doubt the effectiveness of the patch with manually tweaks.",-1
+"Is this member now instantiated on demand, on first call to from()? If so, we should initialise from to zero in this ctor.
+/edit: oh, I see, in the public class ctor. Never mind :-)",-1
+"Mostly, this looks great. A couple of issues:
+
+1. should zero-initialise all member variable pointers even when we set them directly in the parent ctor (eg, from, to, etc members)
+2. It'd be nice if we could override the finished handler etc in the private implementation class instead of the public / parent class, as these are really implementation details which shouldn't be exposed in the ""public"" api (although I know that currently, those classes aren't public headers in the C++ sense - yet).
+Also, I've since added another IdentifiableContentItem-derived type: FacebookNotification - which probably also needs to be updated according to your changes.
+
+Other than those small issues, this looks fantastic.",0
+Thanks for the update. Naether logs some exceptions as part of the test suite. There is an assertion that compares the dependencies with the Maven pom that is causing Travis to fail. I can clean it up and push out an updated gem.,0
+"Heh yeah, I will cherry pick here. Although I can't merge yet, since I don't have Gnome-Shell 3.3 installed, and without testing I don't like to merge. Apart from that, good work, was exactly what I intended :)",0
+"Good to know that the window decoration is now properly captured, although I'm mising the window shadow. About the ""artifacts"" on transparent background, they were already present in 3.2.",0
+"Looks good so far. Tho I still have to wait for the new Ubuntu to get GS 3.3 so I can test out all changes before I can merge.
+
+Oh, and about the timer for active window:
+It is a bit tricky to handle focus-changes while the timer is running (I remember that I had some good reason to forbid the timer on that). Tho if you like you can look into it and supply a patch.",0
+this doesn't appear to ever be set,-1
+few small notes. @special to review also,-1
+"woah, hold on, we do have a reason to keep libexif, don't we? the current implementation - correct me if i'm wrong - appears to only handle jpeg format images, whereas gallery can also be fed png and other types.
+
+I don't know which implementation we'd use in what conditions, e.g. is this likely to perform better than libexif? if so, we'd want to always use it for jpeg formats, but fall back to libexif (if available) for non-jpeg formats.
+
+alternatively, if libexif is always better, we could use the non-libexif case only when there is no libexif available.
+
+thoughts? am I completely barking mad? :)",-1
+"ok, I bow to your much greater experience in the area :)",-1
+"@balavec Thank you for this PR. Still I'm not sure what is your use case as you should be able to style any faceted widget based on Content-Type, path, section, etc.",-1
+I'm ok with it 😉 Please also upgrade the docs/HISTORY and doctests to make travis happy.,0
+To make this duck-typing check even more robust I would check hasattr of both 'file' and 'name'.,-1
+Looks good to me.,0
+"I ran the tests... Almost every image is different. It looks like the break calculations changed?
+
+The test results: http://stdout.org/~winston/kohske-vtest/html/
+
+And here is diff against the commit where it branched off of master, 0ce3fb1:
+http://stdout.org/~winston/kohske-vtest/diff/
+
+Please feel free to email me if you want help getting set up with vtest.",-1
+"Great - a couple comments:
+
+coord-polar.r: the expansion isn't correct for ""rose plot with has equal spacing""
+lines.r: I think the expansion was working for coord_map when I was working on it -- coord_map just inherited the same expand values as coord_cartesian.",0
+"Oops, sorry Sebastian. My suggestion caused you to mess up your branch because your view of origin/master was out of date, or not pointing where I expected it to. If you look at the network you can see you have a series of commits in your master which are identical to commits in a4's master branch.
+
+I can fix this for you, or an I can try and help you learn to fix it (this is an ideal problem for learning to grok the way git works).
+
+The first thing to ensure is that you have a totally clean working directory. In other words that you really have committed everything.
+
+Then you need to learn about the reflog. This keeps track of the state of your branches even after you do crazy things to them like rebasing. You can see the recent state of your master branch by saying ""git reflog show master"". It will show you the commit shas and a short form (e.g. master@{1} was {1} operations ago). You should be able to see one which was where you did the rebase.
+
+On the assumption you have done nothing since the rebase (if you have, let me know and forget about this for a moment), (__and you have a clean workign directory! otherwise you will blow things away) you can ""git reset --hard master@{1}"" substituting @{1} with the number of the commit you can see in the reflog before you did the rebase.
+
+A useful command to see the state of the world is ""git log --oneline --graph --decorate --all"" (I have a git alias for this to ""git l"".) Look at this before and after the reset --hard to see what has happened.
+
+Finally, ""git fetch --all"", inspect the git log again to make sure things are as you expect, then try the rebase again. If it all goes horribly wrong get in touch.",-1
+"Getting closer..
+
+Now to learn a new command:
+
+git reset --mixed 6500211
+
+reset --mixed keeps all of your files exactly the same, but puts the state of your repository as though it was at commit 6500211. Then you can just git commit -am ""split linkage check into linux/dar.."" to just do that commit right, and remove the merge weirdness.",-1
+I'm just throwing in my vocal support for this patch since I'm forced to use Jacoco to analyse my project (written in Groovy) and would like to see coverage metrics on Sonar.,0
+"Bump, I'd love for this to be added. I use JaCoCo for my Java project that has Groovy code running on maven3. Any idea when this might be completed?",0
+Does this function belong in d3/d3_graph.js? It looks like something that should belong in rage.js (because it refers to flot and d3).,-1
+"Would it be worth having this in a separate file, so we know which bits this comment refers to?",-1
+"This file looks like a library file. Is it correct to copy it verbatim to RAGE (under what license?), or should we be referencing it from the Internet?",-1
+"Those changes are great; thanks. Would you be able to squash the new commits into the original ones, please? Then we won't have one commit adding 7000 lines and another commit removing them.",-1
+I can still see 24da74d as a separate commit. I think it should be squashed into 834bd68. Also that commit should contain cc62471 which would not work in isolation due to not having a change_graph() function.,-1
+"I don't know about adding the JS files to vendor/assets. Original intention of using flexslider was just an out-of-box example. Still not very sure about the Heroku environment.
+
+Pulling both requests, working them out on my local installations and then once it's good, I'll push to Rubygems.
+
+On a side note, does anyone have a copycopter-like solution for adding on content in spree? like you can define areas in any part of the layout where things can be edited.",-1
+"From what I understand, s/non_neg_integer/pos_integer/ would be more precise as each value can not be 0.",-1
+No need this line?,-1
+"Mostly, this looks great. A couple of issues:
+
+should zero-initialise all member variable pointers even when we set them directly in the parent ctor (eg, from, to, etc members)
+It'd be nice if we could override the finished handler etc in the private implementation class instead of the public / parent class, as these are really implementation details which shouldn't be exposed in the ""public"" api (although I know that currently, those classes aren't public headers in the C++ sense - yet).
+Also, I've since added another IdentifiableContentItem-derived type: FacebookNotification - which probably also needs to be updated according to your changes.
+
+Other than those small issues, this looks fantastic.",0
+"While they might do nothing for the placeholder node currently, if we do add something in the componentComplete() function to the base class which is important, these calls will be required. In general, whenever constructing (in C++) something which extends QDeclarativeParserStatus, we should call these two functions.",-1
+"Looks great - almost ready to go in except that the QDeclarativeParserStatus functions should be called when we construct the placeholder node (it's good form, if nothing else). There are periods of time when accessing the node will return a placeholder, and so we need to ensure we do things ""correctly"" for it, even if it returns no data etc.",0
+"Would also be nice if you could squash some of the commits, especially the WIP and less meaningful ones.",-1
+"I have some problems with the patch:
+
+lsscsi is always required to know the interface (e.g. SATA, USB) disks are connected by.
+YaST would have to be extended to check and install the required packages when e.g. RAID, LVM or LUKS is created.
+For debugging purposes the output of the tools is required. E.g. if users have multipath hardware but multipath not enabled really bad things happen. Yes, you can find various bugzilla entries about that. Without the tools the logs get meaningless.
+Finally I don't see the big advantage if the packages are still installed on every system per default. The improvement is only available to people who manually fiddle with their systems.",-1
+You didn't read the last paragraph of my previous comment.,-1
+"Adding paragraphs afterwards is unfair.
+
+The initrd detects by itself what is required. E.g. when running on my system I see:
+
+Features: acpi dm plymouth block usb lvm2 resume.userspace resume.kernel
+
+No mdadm, dmraid, multipath or dmcrypt.
+
+Anyway, yes we want to improve the system for everybody. But the patch only improves it for people who fiddle with the system manually. And for ""a big step"" the patch is unsuited.",-1
+"OK, finally had time to manually merge this. The problem you were having with your code, Blake (remember at school returning 0) is that when you call readlines(), that file can't be read again as it's blank (as readlines() just recursively calls read() which is a pop function).
+
+Anyway, fixed up in a new commit. Thanks for the code!
+
+Now, we can merge Dev with Master.",0
+"Thanks for your feedbacks. I'll try to work on it soon.
+
+That's was my first choice but IDK why I choose to mimic mod_url's displayoptions behavior. I'll change it.
+😳 🤦 I think I need to sleep^^
+😳 🤦 same...
+yep. I'll try to add them",-1
+"Hehe :-) No worries, it is great to see someone else interested in this module. Do you use it somewhere in production?",-1
+"Either my planet software is broken, or I'm missing a step. @certik can you look this over (and tell me how you do it)?",-1
+"Hey,
+
+Thanks for this, looks good to me. I've no jenkins instance to test on at the moment though, so it would be nice if someone else could test it before it's merged.
+
+The only thing I'm unsure of is the use of a ""cf"" prefix in the request parameters. I vaguely recall that this isn't necessary, that the form elements get some kind of namespacing automagically, but it's a while since I've looked at jenkins, and, as mentioned, I've no way of testing at the moment. Could you check it and remove the prefix if it isn't necessary?",0
+"Jenkins » campfire-plugin #2 SUCCESS
+This pull request looks good
+(what's this?)",0
+"Sorry, I think this is wrong. Please run make -C po libstorage.pot before and after your change to see how this loses the comments in the pot file.",-1
+Please keep the { braces }. The original code used them too. Single statement but multiple lines.,-1
+WTF! I have no idea. I prefer the 1st one.,-1
+"Since I contributed to that piece of code last time, I can say that refactored version is easier to understand.",-1
+I spent too long to understand both the old and the new code. The new is marginally better. :-|,-1
+"Overall I don't like it but I admit that it may be a personal preference for ifs given the handful of cases. Most importantly, all the changes are well contained inside the methods and the interface stays the same. And the sformats are deduplicated.
+Even my point about the negations is quite nitpicky, it is close enough in the code not to be a problem.
+
+Just re-add the removed braces, then it LGTM.",-1
+isn't this a bit much copy&pasting? For most of the stuff only some colours change.,-1
+"I will merge this manually sometime tomorrow. Going to bed now. I will try to merge two of the commits together while keeping your edit info intact. (Keeping the author information)
+
+Another note is that I have to convert this for the dev branch we are working off of.
+
+We got a lot of refactoring up ahead for some reorganization. Or at least @KoryuObihiro does that is.
+
+I just had to base my edits off that because they would most likely conflict.",-1
