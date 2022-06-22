@@ -85,7 +85,7 @@ contractionsFilename = os.path.join(here, 'contractions.txt')
 emoticonFilename = os.path.join(here, "emoticon.txt")
 oracleFilename = os.path.join(here, "oracle.xlsx")
 # oracleCsvFilename = os.path.join(here, "oracle.csv")
-oracleCsvFilename = os.path.join(here, "output.csv")
+oracleCsvFilename = os.path.join(here, "our_data.csv")
 print(contractionsFilename)
 # Read in the words with sentiment from the dictionary
 with open(contractionsFilename,"r") as contractions,\
